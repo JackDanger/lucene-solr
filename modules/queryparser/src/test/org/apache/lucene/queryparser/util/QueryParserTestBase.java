@@ -854,6 +854,7 @@ public abstract class QueryParserTestBase extends LuceneTestCase {
   }
        
   public void testException() throws Exception {
+    assertParseException(null);
     assertParseException("\"some phrase");
     assertParseException("(foo bar");
     assertParseException("foo bar))");

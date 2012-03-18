@@ -112,7 +112,14 @@ public abstract class QueryParserBase {
    *  @throws ParseException if the parsing fails
    */
   public Query parse(String query) throws ParseException {
-    ReInit(new FastCharStream(new StringReader(query)));
+    try {
+      ReInit(new FastCharStream(new StringReader(query)));
+    }
+    catch (NullPointerException tme) {
+      ParseException e = new ParseException("No query (\"q=\") provided: " + tme.getMessage());
+      e.initCause(tme);
+      throw e;
+    }
     try {
       // TopLevelQuery is a Query followed by the end-of-input (EOF)
       Query res = TopLevelQuery(field);
